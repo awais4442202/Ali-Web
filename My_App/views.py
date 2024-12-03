@@ -77,9 +77,15 @@ def cart_page(request):
 
 
 def home(request):
-    featured_products = Product.objects.all()[:8]  # For example, fetching the first 8 products
-    
-    return render(request, 'home.html', {'featured_products': featured_products})
+    if request.method == "POST":
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')  # Redirect to the same page or a 'thank you' page
+    else:
+        form = ContactForm()
+    featured_products = Product.objects.order_by('-views')[:8]
+    return render(request, 'home.html', {'form': form, 'featured_products': featured_products})
 
 def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
@@ -89,6 +95,9 @@ def product_detail(request, product_id):
 
 def shop(request):
     return render(request, 'shop.html')
+
+def about(request):
+    return render(request, 'about.html')
 
 def products(request):
     products = Product.objects.all()

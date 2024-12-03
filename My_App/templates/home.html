@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Welcome to {{ site_name }} - Your One-Stop Shop!
+Welcome to NetVolt - Your One-Stop Shop!
 {% endblock %}
 
 {% block content %}
@@ -15,7 +15,7 @@ Welcome to {{ site_name }} - Your One-Stop Shop!
             <a href="/about/" class="btn btn-outline-secondary btn-lg">Learn More</a>
         </div>
         <div class="col-md-6">
-            <img src="/static/My_App/images/wire.jpg" class="img-fluid rounded shadow" alt="Hero Image">
+            <img src="https://images.unsplash.com/photo-1599256871679-6a154745680b?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8d2lyZXxlbnwwfHwwfHx8MA%3D%3D" class="img-fluid rounded shadow" alt="Hero Image">
         </div>
     </div>
 </div>
@@ -39,12 +39,72 @@ Welcome to {{ site_name }} - Your One-Stop Shop!
     </div>
 </div>
 
-<!-- Call to Action -->
-<div class="container-fluid bg-primary text-white py-5">
-    <div class="text-center">
-        <h2>Get Exclusive Deals & Offers</h2>
-        <p class="lead">Sign up for our newsletter to stay updated.</p>
-        <a href="/signup/" class="btn btn-outline-light btn-lg">Sign Up Now</a>
+<!-- Customer Testimonials Section -->
+<div class="container my-5">
+    <h2 class="text-center mb-4">What Our Customers Say</h2>
+    <div class="row text-center">
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <p class="lead">"NetVolt's wires and lights are of unmatched quality! My house looks brighter than ever."</p>
+                    <h6 class="fw-bold">- Sarah M.</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <p class="lead">"Amazing customer service and fast delivery. Highly recommended!"</p>
+                    <h6 class="fw-bold">- Ahmed K.</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <p class="lead">"Their energy-efficient lighting solutions saved me money on electricity bills."</p>
+                    <h6 class="fw-bold">- Lisa T.</h6>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+
+<!-- Contact Form Section -->
+<div class="container my-5">
+    <h2 class="text-center mb-4">Contact Us</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form method="post" action="">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="id_name" class="form-label">Your Name</label>
+                    <input type="text" name="name" class="form-control" id="id_name" value="{{ form.name.value|default:'' }}" required>
+                    {% for error in form.name.errors %}
+                        <div class="text-danger">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                <div class="mb-3">
+                    <label for="id_email" class="form-label">Your Email</label>
+                    <input type="email" name="email" class="form-control" id="id_email" value="{{ form.email.value|default:'' }}" required>
+                    {% for error in form.email.errors %}
+                        <div class="text-danger">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                <div class="mb-3">
+                    <label for="id_message" class="form-label">Your Message</label>
+                    <textarea name="message" class="form-control" id="id_message" rows="4" required>{{ form.message.value|default:'' }}</textarea>
+                    {% for error in form.message.errors %}
+                        <div class="text-danger">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                <button type="submit" class="btn btn-primary">Send Message</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
 {% endblock %}

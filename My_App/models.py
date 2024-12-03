@@ -5,12 +5,13 @@ from django import forms
 
 
 class Product(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=255)
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    image = models.ImageField(upload_to='products/')  # Requires `Pillow` for image uploads
-    seller = models.CharField(max_length=100, default="Nearest Seller")
-    shipping_time = models.CharField(max_length=50, default="3-4 days")
+    image = models.ImageField(upload_to='products/')
+    seller = models.CharField(max_length=255, null=True, blank=True)
+    shipping_time = models.IntegerField(null=True, blank=True)  # Example field
+    views = models.IntegerField(default=0)  # New field for tracking views
 
     def __str__(self):
         return self.name
