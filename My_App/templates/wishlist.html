@@ -9,7 +9,14 @@
         <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" style="height: 150px; object-fit: cover;">
         <div class="card-body">
           <h5 class="card-title">{{ product.name }}</h5>
-          <p class="card-text">${{ product.price }}</p>
+          {% if product.discount_price %}
+<p class="text-muted">
+    <span style="text-decoration: line-through; color: #888;">${{ product.price }}</span>
+    <span style="color: #d9534f;">${{ product.discount_price }}</span>
+</p>
+{% else %}
+<p class="text-muted">${{ product.price }}</p>
+{% endif %}
           <a href="{% url 'add_to_cart_cookie' product.id %}" class="btn btn-primary">Add to Cart</a>
           <button class="btn btn-danger remove-from-wishlist" data-id="{{ product.id }}">Remove</button>
         </div>

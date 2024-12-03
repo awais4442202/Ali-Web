@@ -6,22 +6,36 @@
     <h1 class="text-center mb-4">My Cart</h1>
     <div class="row" id="cart-items-container">
         {% for item in cart_items %}
-        <div class="col-md-4 col-sm-6 mb-4" id="cart-item-{{ item.product.id }}">
-            <div class="card h-100 shadow-sm" style="border-radius: 10px; overflow: hidden;">
+<div class="col-md-4 col-sm-6 mb-4" id="cart-item-{{ item.product.id }}">
+    <div class="card h-100 shadow-sm" style="border-radius: 10px; overflow: hidden;">
 
-                <!-- Product Image -->
-                <img src="{{ item.product.image.url }}" 
-                     class="card-img-top" 
-                     alt="{{ item.product.name }}" 
-                     style="height: 180px; object-fit: cover;">
+        <!-- Product Image -->
+        <img src="{{ item.product.image.url }}" 
+             class="card-img-top" 
+             alt="{{ item.product.name }}" 
+             style="height: 180px; object-fit: cover;">
 
-                <!-- Product Details -->
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title text-dark text-truncate">{{ item.product.name }}</h5>
-                    <p class="card-title text-dark mb-1">Description: {{ item.product.description }}</p>
-                    <p class="text-muted mb-1">Price: <span class="text-primary">${{ item.product.price }}</span></p>
-                    <p class="text-muted mb-3">Quantity: <strong>{{ item.quantity }}</strong></p>
-                </div>
+        <!-- Product Details -->
+        <div class="card-body d-flex flex-column">
+            <h5 class="card-title text-dark text-truncate">{{ item.product.name }}</h5>
+            <p class="card-title text-dark mb-1">Description: {{ item.product.description }}</p>
+
+            <!-- Display Discount Price if Available -->
+            {% if item.product.discount_price %}
+            <p class="text-muted">
+                <span style="text-decoration: line-through; color: #888;">${{ item.product.price }}</span>
+                <span style="color: #d9534f;">${{ item.product.discount_price }}</span>
+            </p>
+            {% else %}
+            <p class="text-muted">${{ item.product.price }}</p>
+            {% endif %}
+
+            <p class="text-muted mb-3">Quantity: <strong>{{ item.quantity }}</strong></p>
+        </div>
+    
+
+
+
 
                 <!-- Footer Actions -->
                 <div class="card-footer mt-auto bg-white d-flex justify-content-between align-items-center">
