@@ -3,17 +3,6 @@ from django.contrib.auth.models import User
 from django import forms
 # Create your models here.
 
-
-class Product(models.Model):
-    name = models.CharField(max_length=100)
-    description = models.TextField()
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    image = models.ImageField(upload_to='products/')  # Requires `Pillow` for image uploads
-    seller = models.CharField(max_length=100, default="Nearest Seller")
-    shipping_time = models.CharField(max_length=50, default="3-4 days")
-
-    def __str__(self):
-        return self.name
     
 
 class Product(models.Model):
