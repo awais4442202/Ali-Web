@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container text-center mt-5">
+  <h1 class="text-success">Purchase Successful!</h1>
+  <p>Thank you for your purchase of "{{ order.product.name }}".</p>
+  <p><strong>Order ID:</strong> {{ order.id }}</p>
+  <p><strong>Quantity:</strong> {{ order.quantity }}</p>
+  <p><strong>Delivery Address:</strong> {{ order.address }}</p>
+  <p><strong>Phone Number:</strong> {{ order.phone_number }}</p>
+  <a href="{% url 'home' %}" class="btn btn-primary mt-3">Go to Home</a>
+</div>
+{% endblock %}

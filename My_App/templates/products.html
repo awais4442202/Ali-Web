@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+  <!-- Success/Error Message Container -->
+  <div id="message-container" style="margin-bottom: 20px;"></div>
+
+  <div class="row">
+    {% for product in products %}
+    <div class="col-md-3 mb-4"> <!-- Each product card takes 1/4 of the row -->
+      <div class="product-card" style="border: 1px solid #ddd; padding: 15px; text-align: center; position: relative;">
+        
+        <!-- Wishlist Icon -->
+        <a href="javascript:void(0);" 
+           onclick="addToWishlist('{{ product.id }}');" 
+           style="position: absolute; top: 10px; right: 10px; color: #f00; font-size: 20px;">
+          <i class="bi bi-heart"></i>
+        </a>
+        
+        <!-- Product Image -->
+        <img src="{{ product.image.url }}" alt="{{ product.name }}" 
+             style="width: 150px; height: 150px; object-fit: cover; margin: 0 auto;">
+
+        <!-- Product Details -->
+        <div class="details">
+          <h5 style="font-size: 16px; margin: 10px 0;">{{ product.name }}</h5>
+          <span class="badge" style="background-color: #f0f0f0; padding: 5px;">{{ product.seller }}</span>
+          <p style="font-size: 14px; color: #666;">Shipped in {{ product.shipping_time }}</p>
+          <p class="price" style="font-size: 18px; font-weight: bold;">${{ product.price }}</p>
+          
+          <!-- Add to Cart and Buy Buttons -->
+          <a href="javascript:void(0);" onclick="addToCart('{{ product.id }}');" class="btn btn-primary btn-cart" 
+             style="margin-right: 5px;">Add to Cart</a>
+             <a href="{% url 'buy_page' product.id %}" class="btn btn-success btn-buy">Buy</a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Add a new row every 4 products -->
+    {% if forloop.counter|divisibleby:4 and not forloop.last %}
+  </div>
+  <div class="row">
+    {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+<!-- JavaScript for AJAX -->
+<script>
+  // Function to display messages
+  function showMessage(message, type = 'success') {
+    const container = document.getElementById('message-container');
+    container.innerHTML = `<div class="alert alert-${type}" role="alert">${message}</div>`;
+    setTimeout(() => {
+      container.innerHTML = ''; // Clear the message after 3 seconds
+    }, 3000);
+  }
+
+  // Add to Wishlist Function
+  function addToWishlist(productId) {
+    fetch(`/add-to-wishlist/${productId}/`)
+      .then(response => response.json())
+      .then(data => {
+        if (data.message) {
+          showMessage(data.message, 'success');
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        showMessage('Failed to add to wishlist.', 'danger');
+      });
+  }
+
+  // Add to Cart Function
+  function addToCart(productId) {
+    fetch(`/add-to-cart/${productId}/`)
+      .then(response => response.json())
+      .then(data => {
+        if (data.message) {
+          showMessage(data.message, 'success');
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        showMessage('Failed to add to cart.', 'danger');
+      });
+  }
+</script>
+{% endblock %}

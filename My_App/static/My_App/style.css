@@ -1,0 +1,101 @@
+body {
+    background: linear-gradient(to right, #00ffb1, #ff5353);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  .product-img {
+    width: 150px; /* Fixed width */
+    height: 150px; /* Fixed height */
+    object-fit: cover; /* Ensures the image fits the box */
+    margin: 0 auto; /* Centers the image */
+    border-radius: 10px; /* Optional: Adds rounded corners */
+  }
+
+  .product-card img {
+    width: 150px; /* Set a fixed width */
+    height: 150px; /* Set a fixed height */
+    object-fit: cover; /* Ensures the image fits within the dimensions without distortion */
+    display: block; /* Removes unwanted spacing */
+    margin: 0 auto; /* Centers the image horizontally */
+  }
+  
+  
+  
+  .product-card .badge {
+    background-color: #d9b3ff;
+    color: #4b0082;
+    font-size: 12px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+  .product-card .details {
+    padding: 15px;
+  }
+  .product-card h5 {
+    font-size: 18px;
+    margin: 10px 0;
+  }
+  .product-card p {
+    font-size: 14px;
+    color: gray;
+    margin: 5px 0;
+  }
+  .product-card .price {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+  }
+  .product-card .btn {
+    margin: 5px;
+  }
+  .product-card .btn-buy {
+    background-color: #8000ff;
+    color: #fff;
+  }
+  .product-card .btn-cart {
+    background-color: #f0f0f0;
+    color: #333;
+  }
+  
+/* Cart */
+
+.card {
+  border: 1px solid #ddd;
+  transition: transform 0.2s ease-in-out;
+  max-width: 300px; /* Optional: Set a consistent max width */
+  margin: 0 auto;   /* Center-align cards on smaller screens */
+}
+
+.card:hover {
+  transform: scale(1.03);
+}
+
+.card-footer {
+  padding: 10px 15px;
+  background-color: #f9f9f9;
+}
+
+
+.card-footer .btn {
+  width: 48%;
+}
+
+/* Fotter */
+
+footer {
+  background-color: #343a40; /* Dark background */
+  color: #ffffff;           /* White text */
+  text-align: center;       /* Centered text */
+  padding: 10px 0;          /* Vertical padding */
+  font-size: 14px;          /* Adjust text size */
+}
+
+footer p {
+  margin: 0;
+}
