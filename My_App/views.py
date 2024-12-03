@@ -6,6 +6,15 @@ from django.http import JsonResponse
 from .forms import DeliveryForm
 from django.contrib import messages
 from .forms import ContactForm
+from django.db.models import Q  # For complex queries
+
+def search(request):
+    query = request.GET.get('q', '')  # Get the search query from the request
+    results = Product.objects.filter(
+        Q(name__icontains=query) | Q(description__icontains=query)
+    ) if query else []  # Search in name and description
+
+    return render(request, 'search_results.html', {'query': query, 'results': results})
 
 
 def remove_from_cart_ajax(request, product_id):

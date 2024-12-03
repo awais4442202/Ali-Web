@@ -3,12 +3,9 @@
 
 {% block content %}
 <div class="container">
-  <!-- Success/Error Message Container -->
-  <div id="message-container" style="margin-bottom: 20px;"></div>
-
   <div class="row">
     {% for product in products %}
-    <div class="col-md-3 mb-4"> <!-- Each product card takes 1/4 of the row -->
+    <div class="col-md-3 mb-4">
       <div class="product-card" style="border: 1px solid #ddd; padding: 15px; text-align: center; position: relative;">
         
         <!-- Wishlist Icon -->
@@ -27,12 +24,23 @@
           <h5 style="font-size: 16px; margin: 10px 0;">{{ product.name }}</h5>
           <span class="badge" style="background-color: #f0f0f0; padding: 5px;">{{ product.seller }}</span>
           <p style="font-size: 14px; color: #666;">Shipped in {{ product.shipping_time }}</p>
+
+          <!-- Price Section -->
+          {% if product.discount_price %}
+          <p class="price" style="font-size: 18px; font-weight: bold; color: red;">
+            ${{ product.discount_price }}
+            <span style="text-decoration: line-through; font-size: 14px; color: #666;">
+              ${{ product.price }}
+            </span>
+          </p>
+          {% else %}
           <p class="price" style="font-size: 18px; font-weight: bold;">${{ product.price }}</p>
+          {% endif %}
           
           <!-- Add to Cart and Buy Buttons -->
           <a href="javascript:void(0);" onclick="addToCart('{{ product.id }}');" class="btn btn-primary btn-cart" 
              style="margin-right: 5px;">Add to Cart</a>
-             <a href="{% url 'buy_page' product.id %}" class="btn btn-success btn-buy">Buy</a>
+          <a href="{% url 'buy_page' product.id %}" class="btn btn-success btn-buy">Buy</a>
         </div>
       </div>
     </div>
@@ -45,6 +53,7 @@
     {% endfor %}
   </div>
 </div>
+
 
 <!-- JavaScript for AJAX -->
 <script>
