@@ -8,7 +8,7 @@
         <div class="card-body">
           <h5 class="card-title">{{ product.name }}</h5>
           <p class="card-text">{{ product.description }}</p>
-          <p class="card-text"><strong>Price:</strong> ${{ product.price }}</p>
+          <p class="card-text"><strong>Price:</strong> ${{ product.discounted_price }}</p>
           <form method="POST">
             {% csrf_token %}
             {{ form.as_p }}

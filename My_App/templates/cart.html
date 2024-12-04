@@ -24,7 +24,7 @@
             {% if item.product.discount_price %}
             <p class="text-muted">
                 <span style="text-decoration: line-through; color: #888;">${{ item.product.price }}</span>
-                <span style="color: #d9534f;">${{ item.product.discount_price }}</span>
+                <span style="color: #d9534f;">${{ item.product.discounted_price }}</span>
             </p>
             {% else %}
             <p class="text-muted">${{ item.product.price }}</p>
