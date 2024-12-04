@@ -2,6 +2,9 @@
 {% load static %}
 
 {% block content %}
+<!-- Message container for displaying alerts -->
+<div id="message-container" style="position: fixed; top: 20px; right: 20px; z-index: 1050;"></div>
+
 <div class="container">
   <div class="row">
     {% for product in products %}
@@ -54,7 +57,6 @@
   </div>
 </div>
 
-
 <!-- JavaScript for AJAX -->
 <script>
   // Function to display messages
@@ -68,7 +70,13 @@
 
   // Add to Wishlist Function
   function addToWishlist(productId) {
-    fetch(`/add-to-wishlist/${productId}/`)
+    fetch(`/add-to-wishlist/${productId}/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": "{{ csrf_token }}", // Include CSRF token for secure requests
+      }
+    })
       .then(response => response.json())
       .then(data => {
         if (data.message) {
@@ -83,7 +91,13 @@
 
   // Add to Cart Function
   function addToCart(productId) {
-    fetch(`/add-to-cart/${productId}/`)
+    fetch(`/add-to-cart/${productId}/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": "{{ csrf_token }}", // Include CSRF token for secure requests
+      }
+    })
       .then(response => response.json())
       .then(data => {
         if (data.message) {

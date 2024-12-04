@@ -2,6 +2,9 @@
 {% block content %}
 <div class="container">
   <h3>Your Wishlist</h3>
+  <!-- Message Container -->
+  <div id="message-container" style="position: fixed; top: 20px; right: 20px; z-index: 1050;"></div>
+
   <div class="row">
     {% for product in products %}
     <div class="col-md-3 mb-4" id="wishlist-item-{{ product.id }}">
@@ -9,15 +12,19 @@
         <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" style="height: 150px; object-fit: cover;">
         <div class="card-body">
           <h5 class="card-title">{{ product.name }}</h5>
+          
+          <!-- Display Price -->
           {% if product.discounted_price %}
-<p class="text-muted">
-    <span style="text-decoration: line-through; color: #888;">${{ product.price }}</span>
-    <span style="color: #d9534f;">${{ product.discounted_price }}</span>
-</p>
-{% else %}
-<p class="text-muted">${{ product.price }}</p>
-{% endif %}
-          <a href="{% url 'add_to_cart_cookie' product.id %}" class="btn btn-primary">Add to Cart</a>
+          <p class="text-muted">
+            <span style="text-decoration: line-through; color: #888;">${{ product.price }}</span>
+            <span style="color: #d9534f;">${{ product.discounted_price }}</span>
+          </p>
+          {% else %}
+          <p class="text-muted">${{ product.price }}</p>
+          {% endif %}
+          
+          <!-- Buttons -->
+          <button class="btn btn-primary add-to-cart" data-id="{{ product.id }}">Add to Cart</button>
           <button class="btn btn-danger remove-from-wishlist" data-id="{{ product.id }}">Remove</button>
         </div>
       </div>
@@ -26,40 +33,65 @@
   </div>
 </div>
 
-<!-- JavaScript to handle AJAX removal -->
+<!-- JavaScript -->
 <script>
-document.querySelectorAll(".remove-from-wishlist").forEach(function (button) {
-  button.addEventListener("click", function () {
-    const productId = this.getAttribute("data-id");
-    const itemElement = document.getElementById(`wishlist-item-${productId}`);
-    const url = "{% url 'remove_from_wishlist_cookie' 0 %}".replace("0", productId);
+  // Function to display messages
+  function showMessage(message, type = 'success') {
+    const container = document.getElementById('message-container');
+    container.innerHTML = `<div class="alert alert-${type}" role="alert">${message}</div>`;
+    setTimeout(() => {
+      container.innerHTML = ''; // Clear the message after 3 seconds
+    }, 3000);
+  }
 
-    fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRFToken": "{{ csrf_token }}",
-      },
-    })
-      .then((response) => {
-        if (response.ok) {
-          return response.json(); // Parse the JSON response
-        } else {
-          throw new Error("Failed to remove item.");
-        }
-      })
-      .then((data) => {
-        if (data.success) {
-          itemElement.remove(); // Remove the item from the DOM
-        } else {
-          alert(data.error || "Failed to remove item. Please try again.");
-        }
-      })
-      .catch((error) => {
-        console.error("AJAX error:", error);
-        alert("Failed to remove item. Please try again.");
-      });
+  // Add to Cart Function
+  document.querySelectorAll(".add-to-cart").forEach(function (button) {
+    button.addEventListener("click", function () {
+      const productId = this.getAttribute("data-id");
+      fetch(`/add-to-cart/${productId}/`) // Update with your URL
+        .then(response => response.json())
+        .then(data => {
+          if (data.message) {
+            showMessage(data.message, 'success'); // Show success message
+          } else {
+            showMessage('Failed to add to cart. Please try again.', 'danger');
+          }
+        })
+        .catch(error => {
+          console.error("AJAX error:", error);
+          showMessage('Failed to add to cart. Please try again.', 'danger');
+        });
+    });
   });
-});
+
+  // Remove from Wishlist Function
+  document.querySelectorAll(".remove-from-wishlist").forEach(function (button) {
+    button.addEventListener("click", function () {
+      const productId = this.getAttribute("data-id");
+      const itemElement = document.getElementById(`wishlist-item-${productId}`);
+      const url = "{% url 'remove_from_wishlist_cookie' 0 %}".replace("0", productId);
+
+      fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": "{{ csrf_token }}", // Include CSRF token
+        },
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            itemElement.remove(); // Remove the item from the DOM
+            showMessage('Item removed from wishlist.', 'success'); // Show success message
+          } else {
+            showMessage(data.error || 'Failed to remove item. Please try again.', 'danger');
+          }
+        })
+        .catch(error => {
+          console.error("AJAX error:", error);
+          showMessage('Failed to remove item. Please try again.', 'danger');
+        });
+    });
+  });
 </script>
 {% endblock %}
