@@ -188,32 +188,22 @@ def wishlist_page_cookie(request):
 # Buy Page
 def buy_page(request, product_id):
     product = get_object_or_404(Product, id=product_id)
+    print(f"Request Method: {request.method}")  # Debug: Check request method
 
     if request.method == 'POST':
         form = DeliveryForm(request.POST)
+        print(f"Form Data: {form.data}")  # Debug: View posted data
         if form.is_valid():
-            # Create a guest order if the user is not authenticated
-            user = request.user if request.user.is_authenticated else None
-
-            # Save the order with the form data
-            order = Order.objects.create(
-                user=user,  # None if the user is not authenticated (guest order)
-                product=product,
-                quantity=form.cleaned_data['quantity'],
-                address=form.cleaned_data['address'],
-                phone_number=form.cleaned_data['phone_number']
-            )
-
-            messages.success(request, "Your order has been placed successfully!")
-            return redirect('purchase_success', order_id=order.id)
+            print("Form is valid!")  # Debug: Check if form validation passes
+            ...
+        else:
+            print(f"Form Errors: {form.errors}")  # Debug: Log form errors
     else:
         form = DeliveryForm()
-
-    # Save guest details in the session (only during a POST request)
-    if not request.user.is_authenticated and request.method == 'POST' and form.is_valid():
-        request.session['guest_email'] = form.cleaned_data.get('email')  # Use .get() to avoid KeyError
+        print("GET Request: Initializing blank form.")  # Debug: Handle GET
 
     return render(request, 'buy.html', {'product': product, 'form': form})
+
 
 # Success Page
 def purchase_success(request, order_id):
