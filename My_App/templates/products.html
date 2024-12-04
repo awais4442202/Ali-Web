@@ -26,9 +26,9 @@
           <p style="font-size: 14px; color: #666;">Shipped in {{ product.shipping_time }}</p>
 
           <!-- Price Section -->
-          {% if product.discount_price %}
+          {% if product.discounted_price %}
           <p class="price" style="font-size: 18px; font-weight: bold; color: red;">
-            ${{ product.discount_price }}
+            ${{ product.discounted_price }}
             <span style="text-decoration: line-through; font-size: 14px; color: #666;">
               ${{ product.price }}
             </span>

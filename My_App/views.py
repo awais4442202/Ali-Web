@@ -192,12 +192,12 @@ def buy_page(request, product_id):
     if request.method == 'POST':
         form = DeliveryForm(request.POST)
         if form.is_valid():
-            # Create a guest order if user is not authenticated
+            # Create a guest order if the user is not authenticated
             user = request.user if request.user.is_authenticated else None
 
             # Save the order with the form data
             order = Order.objects.create(
-                user=user,  # If the user is not authenticated, it will be None (guest order)
+                user=user,  # None if the user is not authenticated (guest order)
                 product=product,
                 quantity=form.cleaned_data['quantity'],
                 address=form.cleaned_data['address'],
@@ -209,9 +209,10 @@ def buy_page(request, product_id):
     else:
         form = DeliveryForm()
 
-    # Save guest details in the session (if not logged in)
-    if not request.user.is_authenticated:
-        request.session['guest_email'] = form.cleaned_data['email']  # Or any other data you want to track
+    # Save guest details in the session (only during a POST request)
+    if not request.user.is_authenticated and request.method == 'POST' and form.is_valid():
+        request.session['guest_email'] = form.cleaned_data.get('email')  # Use .get() to avoid KeyError
+
     return render(request, 'buy.html', {'product': product, 'form': form})
 
 # Success Page

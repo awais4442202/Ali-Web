@@ -14,10 +14,10 @@
                 <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" style="height: 200px; object-fit: cover;">
                 <div class="card-body text-center">
                     <h5 class="card-title">{{ product.name }}</h5>
-                    {% if product.discount_price %}
+                    {% if product.discounted_price %}
 <p class="text-muted">
     <span style="text-decoration: line-through; color: #888;">${{ product.price }}</span>
-    <span style="color: #d9534f;">${{ product.discount_price }}</span>
+    <span style="color: #d9534f;">${{ product.discounted_price }}</span>
 </p>
 {% else %}
 <p class="text-muted">${{ product.price }}</p>
