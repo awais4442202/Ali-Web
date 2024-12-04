@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-4!ar%+&wcq6&p5-pzr2mymwca4_-evt^80+nve+d#@r*m23&v$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 # ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'netvolt.shop']
 ALLOWED_HOSTS = ['netvolt.shop', 'www.netvolt.shop', '127.0.0.1']
