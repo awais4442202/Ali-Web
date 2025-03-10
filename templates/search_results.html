@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Search Results{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="mb-4">Search Results for "{{ query }}"</h2>
+    
+    {% if results %}
+    <div class="row">
+        {% for product in results %}
+        <div class="col-md-3 mb-4">
+            <div class="card h-100">
+                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" style="height: 200px; object-fit: cover;">
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    {% if product.discounted_price %}
+<p class="text-muted">
+    <span style="text-decoration: line-through; color: #888;">${{ product.price }}</span>
+    <span style="color: #d9534f;">${{ product.discounted_price }}</span>
+</p>
+{% else %}
+<p class="text-muted">${{ product.price }}</p>
+{% endif %}
+                    <a href="{% url 'product_detail' product.id %}" class="btn btn-primary">View Details</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="text-muted">No products found for your search query.</p>
+    {% endif %}
+</div>
+{% endblock %}

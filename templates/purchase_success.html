@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <!-- Success Card -->
+            <div class="card shadow-lg">
+                <div class="card-header text-white bg-success">
+                    <h4 class="mb-0">Order Confirmation</h4>
+                </div>
+                <div class="card-body">
+                    <h3 class="text-center text-success">Thank you for your purchase!</h3>
+                    <p class="text-center">Your order has been placed successfully.</p>
+                    
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <h5>Order Details:</h5>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item"><strong>Product:</strong> {{ order.product.name }}</li>
+                                <li class="list-group-item"><strong>Quantity:</strong> {{ order.quantity }}</li>
+                                <li class="list-group-item"><strong>Address:</strong> {{ order.address }}</li>
+                                <li class="list-group-item"><strong>Phone:</strong> {{ order.phone_number }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <a href="{% url 'home' %}" class="btn btn-primary">Go to Home</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
