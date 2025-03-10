@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-4!ar%+&wcq6&p5-pzr2mymwca4_-evt^80+nve+d#@r*m23&v$
 DEBUG = True
 
 # ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'netvolt.shop']
-ALLOWED_HOSTS = ['netvolt.shop', 'www.netvolt.shop', 'ali-web-git-main-muhammad-awais-projects-b0079465.vercel.app']
+ALLOWED_HOSTS = ['netvolt.shop', 'www.netvolt.shop', 'ali-web-git-main-muhammad-awais-projects-b0079465.vercel.app','.vercel.app']
 
 # Application definition
 
